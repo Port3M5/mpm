@@ -24,7 +24,7 @@ class MPMPackageManager
     find_packages(@path)
   end
   
-  def find_packages(path)
+  def list(path)
     begin
       p = Pathname.new path
       p = p.expand_path

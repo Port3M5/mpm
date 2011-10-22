@@ -17,14 +17,32 @@ global_opts = Trollop::options do
   stop_on SUB_COMMANDS
 end
 
+# Load the configs up
+config = MPMConfig.new global_opts
+pm = MPMPackageManager.new config.options[:storage]
+
 cmd = ARGV.shift
 cmd_opts = case cmd
+  when "list"
+    list
   when "use"
-    
-    puts "Remaining #{ARGV.inspect}"
+    use ARGV.inspect
+  when "new"
+    create_new ARGV.inspect
   else
     Trollop::die "Unknown subcommand"
   end
-config = MPMConfig.new {:config => @config, :storage => @storage}
 
-pm = MPMPackageManager.new config.options[:storage]
+
+# Gets all the packages
+def list
+  pm.list()
+end
+
+def use name
+  pm.use name
+end
+
+def create_new name
+  pm.create_new name
+end
