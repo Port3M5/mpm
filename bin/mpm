@@ -8,7 +8,7 @@ require_relative '../config'
 require_relative '../packagemanager'
 
 # Configure Trollop for ARGs
-SUB_COMMANDS = %w(use list new)
+SUB_COMMANDS = %w(use list new setup)
 global_opts = Trollop::options do
   banner "Minecraft Profile Manager. Minecraft management made easy :)"
   version "0.1 Testing"
@@ -39,6 +39,7 @@ end
 # Get the subcommands
 cmd = ARGV.shift
 cmd_opts = case cmd
+when "setup"
 when "list"
 when "use"
 when "new"
@@ -48,9 +49,11 @@ when "new"
 else
   Trollop::die "Unknown subcommand"
 end
-  
+
 # Run the commands
 case cmd
+when "setup"
+  @pm.setup
 when "list"
   list
 when "use"

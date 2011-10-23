@@ -1,4 +1,5 @@
 require 'pathname'
+require 'fileutils'
 
 class MPMPackageManager
   attr_accessor :options, :path, :restricted_folders
@@ -59,10 +60,12 @@ class MPMPackageManager
     
     if from.symlink? or !from.exist?
       begin
-        begin
-          File.unlink from
-        rescue
-          puts "Unable to remove #{from}"
+        if from.exist?
+          begin
+            File.unlink from
+          rescue
+            puts "Unable to remove #{from}"
+          end
         end
         File.symlink to, from
       rescue
@@ -70,6 +73,30 @@ class MPMPackageManager
       end
     else
       puts "#{from} is not a symlink"
+    end
+  end
+  
+  def setup
+    minecraft = Pathname.new @options[:minecraftdir]
+    if File.exist? minecraft and not File.symlink? minecraft
+      # Move the contents of the dir to the Default Profile
+      create_new "default"
+      begin
+        FileUtils.cp_r minecraft, Pathname.new(@options[:storage] + "default").expand_path
+      rescue
+        puts "Cannot copy Minecraft folder"
+      end
+      begin
+        FileUtils.remove_dir minecraft, true
+      rescue
+        puts "Cannot delete minecraft folder"
+      end
+      use 'default'
+    elsif not File.exists? minecraft
+      # Just create the symlink
+      create_new "default", true
+    else
+      puts "MPM has already been configured"
     end
   end
   
