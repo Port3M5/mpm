@@ -15,28 +15,28 @@ class MPMConfig
       value
     end
     
-    p "Args after emptying: #{args}"
-    
     # Set the dir for minecraft
-    set_minecraft_dir args[:minecraftdir]
+    @options[:minecraftdir] = get_minecraft_dir args[:minecraftdir]
     
     # Load the config if it exists
     file = args[:config] ? args[:config] : @defaults[:config]
     conf = load file
     
-    if conf then @options = conf end
-    @options = @defaults.merge args
+    # If the config exists then set the options to the loaded values
+    if conf then @options = @options.merge conf end
+    @defaults = @defaults.merge args
+    @options = @options.merge @defaults
     
     save @options[:config]
   end
   
-  def set_minecraft_dir(path = nil)
-    if path.nil? or path.empty?
+  def get_minecraft_dir(path = nil)
+    if path.nil?
       if OsFunctions::is_mac?
-        @options[:minecraftdir] = Pathname.new('~/Library/Application Support/minecraft').expand_path
+        return Pathname.new('~/Library/Application Support/minecraft').expand_path.to_s
       end
     else
-      @options[:minecraftdir] = path
+      return path
     end
   end
   
