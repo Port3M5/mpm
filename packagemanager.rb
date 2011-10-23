@@ -18,10 +18,6 @@ class MPMPackageManager
     rescue
       puts "#{@path} could not be created"
     end
-      
-    @packages = {}
-    
-    find_packages(@path)
   end
   
   def list(path)
@@ -29,8 +25,12 @@ class MPMPackageManager
       p = Pathname.new path
       p = p.expand_path
       
-      @packages = p.children.select { |c| c.directory? }
-      puts @packages
+      @packages = p.children.select do |c|
+        c.directory?
+      end
+      
+      puts "Packages available are:"
+      @packages.each do |p| puts p.basename end
       
     rescue
       puts "Unable to read #{path}"

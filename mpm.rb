@@ -6,8 +6,6 @@ require 'trollop'
 require './config'
 require './packagemanager'
 
-attr_accessor :config, :storage
-
 # Configure Trollop for ARGs
 SUB_COMMANDS = %w(use list new)
 global_opts = Trollop::options do
@@ -18,13 +16,30 @@ global_opts = Trollop::options do
 end
 
 # Load the configs up
-config = MPMConfig.new global_opts
-pm = MPMPackageManager.new config.options[:storage]
+p global_opts
+@config = MPMConfig.new global_opts
+@pm = MPMPackageManager.new @config.options[:storage]
 
+## Define the functions
+
+# Gets all the packages
+def list path
+  @pm.list path
+end
+
+def use name
+  @pm.use name
+end
+
+def create_new name
+  @pm.create_new name
+end
+
+# Get the subcommands and respond accordingly
 cmd = ARGV.shift
 cmd_opts = case cmd
   when "list"
-    list
+    list @config.options[:storage]
   when "use"
     use ARGV.inspect
   when "new"
@@ -32,17 +47,3 @@ cmd_opts = case cmd
   else
     Trollop::die "Unknown subcommand"
   end
-
-
-# Gets all the packages
-def list
-  pm.list()
-end
-
-def use name
-  pm.use name
-end
-
-def create_new name
-  pm.create_new name
-end
