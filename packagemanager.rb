@@ -29,7 +29,6 @@ class MPMPackageManager
       
       p.children.select do |c|
         if c.directory? then
-          puts c.basename
           if not in_restricted_folders? c.basename.to_s
             @packages << c
           end
