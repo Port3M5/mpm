@@ -12,7 +12,12 @@ ToC
 Installing MPM
 --------------
 
-Clone the repository into your home folder then add ~/./mpm/bin to your PATH
+Clone the repository into your home folder with `git clone git://github.com/Port3M5/mpm.git ~/.mpm` then add
+
+    # Enable MPM.
+    [[ -s "/Users/anthony/.mpm/bin/mpm" ]] && export PATH="$PATH:/Users/anthony/.mpm/bin"
+
+to your `.bash_profile`
 
 Using MPM
 ---------
