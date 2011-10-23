@@ -128,7 +128,6 @@ class MPMPackageManager
   
   def to_s
     str = "Packages are:\n"
-    puts @packages
     list.each do |val|
       str += val.basename.to_s + "\n"
     end
