@@ -1,4 +1,4 @@
-require "./osfunctions"
+require_relative "./osfunctions"
 require 'pathname'
 require "yaml"
 
@@ -7,7 +7,7 @@ class MPMConfig
 
   def initialize(args = {})
     # Define the defaults
-    @defaults = {:config => './conf/config.yaml', :storage => '~/.mpm/'}
+    @defaults = {:config => 'conf/config.yaml', :storage => '~/.mpm/'}
     @options = {}
     
     # Clear empty or nil args
@@ -19,7 +19,8 @@ class MPMConfig
     @options[:minecraftdir] = get_minecraft_dir args[:minecraftdir]
     
     # Load the config if it exists
-    file = args[:config] ? args[:config] : @defaults[:config]
+    file = (args[:storage] and args[:config]) ? args[:storage] + args[:config] : @defaults[:storage] + @defaults[:config]
+    file = Pathname.new(file).expand_path
     conf = load file
     
     # If the config exists then set the options to the loaded values
@@ -27,7 +28,7 @@ class MPMConfig
     @defaults = @defaults.merge args
     @options = @options.merge @defaults
     
-    save @options[:config]
+    save file
   end
   
   def get_minecraft_dir(path = nil)

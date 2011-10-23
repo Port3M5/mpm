@@ -1,4 +1,4 @@
 ---
 :minecraftdir: /Users/anthony/Library/Application Support/minecraft
-:config: ./conf/config.yaml
+:config: conf/config.yaml
 :storage: ~/.mpm/

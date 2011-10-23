@@ -6,7 +6,7 @@ class MPMPackageManager
   def initialize(options = {})
     @options = options
     @path = @options[:storage]
-    @restricted_folders = ['conf']
+    @restricted_folders = ['conf', 'bin']
     
     # Create the dir if it doesnt exist
     begin
@@ -14,8 +14,6 @@ class MPMPackageManager
       p = p.expand_path
       if !p.exist?
         p.mkdir
-      else
-        puts "#{@path} already exists"
       end
     rescue
       puts "#{@path} could not be created"
