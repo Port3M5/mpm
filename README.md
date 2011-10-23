@@ -32,6 +32,7 @@ Changelog
 ### 23/10/2011 ###
 
 + Initial upload to GitHub
++ Improved logic to detect non-profiles
 
 Todo
 ----

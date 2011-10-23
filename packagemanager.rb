@@ -7,7 +7,8 @@ class MPMPackageManager
   def initialize(options = {})
     @options = options
     @path = @options[:storage]
-    @restricted_folders = ['conf', 'bin']
+    @restricted_folders = ['conf', 'bin', '.git']
+    @packages = []
     
     # Create the dir if it doesnt exist
     begin
@@ -26,9 +27,12 @@ class MPMPackageManager
       p = Pathname.new path
       p = p.expand_path
       
-      @packages = p.children.select do |c|
-        if not in_restricted_folders? c
-          c.directory?
+      p.children.select do |c|
+        if c.directory? then
+          puts c.basename
+          if not in_restricted_folders? c.basename.to_s
+            @packages << c
+          end
         end
       end
       return @packages
@@ -125,6 +129,7 @@ class MPMPackageManager
   
   def to_s
     str = "Packages are:\n"
+    puts @packages
     list.each do |val|
       str += val.basename.to_s + "\n"
     end
