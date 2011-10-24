@@ -22,6 +22,11 @@ class MPMPackageManager
     end
   end
   
+  def get_current_package
+    p = Pathname.new File.realdirpath @options[:minecraftdir]
+    return p.basename
+  end
+  
   def list
     begin
       p = Pathname.new path

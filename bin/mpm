@@ -8,10 +8,10 @@ require_relative '../config'
 require_relative '../packagemanager'
 
 # Configure Trollop for ARGs
-SUB_COMMANDS = %w(use list new setup)
+SUB_COMMANDS = %w(use list new setup current)
 global_opts = Trollop::options do
   banner "Minecraft Profile Manager. Minecraft management made easy :)"
-  version "0.1 Testing"
+  version "0.2"
   opt :config, "Use config file from this location", :type => String
   opt :storage, "Select the location to store the mpm folder", :type => String
   stop_on SUB_COMMANDS
@@ -60,4 +60,6 @@ when "use"
   use ARGV.first
 when "new"
   create_new ARGV.first, cmd_opts[:use]
+when "current"
+  puts "Current Profile is: #{@pm.get_current_package}"
 end
