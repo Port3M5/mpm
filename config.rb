@@ -47,6 +47,7 @@ class MPMConfig
   end
   
   def save(path)
+    path = Pathname.new(path).expand_path
     begin
       File.open(path, "w") do |f|
         f.write(@options.to_yaml)
@@ -57,6 +58,7 @@ class MPMConfig
   end
   
   def load(path)
+    path = Pathname.new(path).expand_path
     begin
       conf = YAML::load File.open path
       return conf
