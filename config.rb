@@ -15,20 +15,25 @@ class MPMConfig
       value
     end
     
+    # Add the args to the options
+    @options = args
+    
+    # Load config then add the missing defaults
+    config = get_config args[:storage], args[:config]
+    @options = @options.merge config
+    @options = @options.merge @defaults
+    
     # Set the dir for minecraft
     @options[:minecraftdir] = get_minecraft_dir args[:minecraftdir]
     
-    # Load the config if it exists
-    file = (args[:storage] and args[:config]) ? args[:storage] + args[:config] : @defaults[:storage] + @defaults[:config]
+    save @options[:storage] + @options[:config]
+  end
+  
+  # Load the config from the given location, otherwise use the default location
+  def get_config(storage, path)
+    file = (storage and path) ? storage + path : @defaults[:storage] + @defaults[:config]
     file = Pathname.new(file).expand_path
-    conf = load file
-    
-    # If the config exists then set the options to the loaded values
-    if conf then @options = @options.merge conf end
-    @defaults = @defaults.merge args
-    @options = @options.merge @defaults
-    
-    save file
+    return load file
   end
   
   def get_minecraft_dir(path = nil)
