@@ -63,23 +63,28 @@ class MPMPackageManager
   
   def set_symlink(packagename)
     from = File.expand_path @options[:minecraftdir]
-    to = File.expand_path @path + packagename
+    to = File.expand_path @path + "/" + packagename
+    puts "From: #{from} To: #{to}"
     
-    if File.symlink? from or File.exists? from
-      begin
-        if File.exists? from
-          begin
-            File.unlink from
-          rescue
-            puts "Unable to remove #{from}"
-          end
+    begin
+      if File.symlink? from and File.exists? from
+        begin
+          File.unlink from
+          File.symlink to, from
+        rescue Exception => e
+          puts "Unable to remove #{from}"
+          puts e.message
         end
-        File.symlink to, from
-      rescue
-        puts "Unable to create symlink from #{from} to #{to}"
+      elsif not File.exists? from
+        begin
+          File.symlink to, from
+        rescue Exception => e
+          puts e.message
+        end
       end
-    else
-      puts "#{from} is not a symlink"
+    rescue Exception => e
+      puts "Unable to create symlink from #{from} to #{to}"
+      puts e.message
     end
   end
   

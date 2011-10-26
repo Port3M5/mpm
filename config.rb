@@ -53,7 +53,7 @@ class MPMConfig
     path = File.expand_path path
     if not File.exists? path
       begin
-        FileUtils.mkdir_p  path.chomp File.basename path
+        FileUtils.mkdir_p File.dirname path
       rescue Exception => e
         puts e.message
       end
