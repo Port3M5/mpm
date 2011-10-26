@@ -89,7 +89,7 @@ class MPMPackageManager
       # Move the contents of the dir to the Default Profile
       create_new "default"
       begin
-        FileUtils.cp_r minecraft, File.expand_path @options[:storage] + "/" + "default"
+        FileUtils.cp_r minecraft, File.expand_path(@options[:storage] + "/" + "default")
       rescue
         puts "Cannot copy Minecraft folder"
       end
@@ -111,7 +111,8 @@ class MPMPackageManager
     p = File.expand_path(@path + "/" + name)
     if not File.directory? p and not in_restricted_folders? name
       begin
-        Fileutils.mkdir p
+        puts p
+        FileUtils.mkdir p
       rescue
         puts "Cannot make #{name}"
       end
@@ -133,7 +134,7 @@ class MPMPackageManager
   def to_s
     str = "Packages are:\n"
     list.each do |val|
-      str += val.basename.to_s + "\n"
+      str += val + "\n"
     end
     return str
   end
