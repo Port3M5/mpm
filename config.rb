@@ -51,12 +51,15 @@ class MPMConfig
   
   def save(path)
     path = File.expand_path path
+    if not File.exists? path
+      FileUtils.mkdir_p  path.chomp File.basename path
+    end
     begin
       File.open(path, "w") do |f|
         f.write(@options.to_yaml)
       end
-    rescue
-      puts "Unable to write to #{path}"
+    rescue Exception => e
+      puts e.message
     end
   end
   
@@ -66,8 +69,8 @@ class MPMConfig
       begin
         conf = YAML::load File.open path
         return conf
-      rescue
-        puts "#{path} does not exist"
+      rescue Exception => e
+        puts e.message
       end
     else
       return {}
