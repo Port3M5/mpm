@@ -62,11 +62,15 @@ class MPMConfig
   
   def load(path)
     path = File.expand_path path
-    begin
-      conf = YAML::load File.open path
-      return conf
-    rescue
-      puts "#{path} does not exist"
+    if File.exists? path
+      begin
+        conf = YAML::load File.open path
+        return conf
+      rescue
+        puts "#{path} does not exist"
+      end
+    else
+      return {}
     end
   end
 end
