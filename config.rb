@@ -52,7 +52,11 @@ class MPMConfig
   def save(path)
     path = File.expand_path path
     if not File.exists? path
-      FileUtils.mkdir_p  path.chomp File.basename path
+      begin
+        FileUtils.mkdir_p  path.chomp File.basename path
+      rescue Exception => e
+        puts e.message
+      end
     end
     begin
       File.open(path, "w") do |f|

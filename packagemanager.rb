@@ -90,13 +90,15 @@ class MPMPackageManager
       create_new "default"
       begin
         FileUtils.cp_r minecraft, File.expand_path(@options[:storage] + "/" + "default")
-      rescue
+      rescue Exception => e
         puts "Cannot copy Minecraft folder"
+        puts e.message
       end
       begin
         FileUtils.remove_dir minecraft, true
-      rescue
+      rescue Exception => e
         puts "Cannot delete minecraft folder"
+        puts e.message
       end
       use 'default'
     elsif not File.exists? minecraft
@@ -111,7 +113,6 @@ class MPMPackageManager
     p = File.expand_path(@path + "/" + name)
     if not File.directory? p and not in_restricted_folders? name
       begin
-        puts p
         FileUtils.mkdir p
       rescue
         puts "Cannot make #{name}"
