@@ -12,10 +12,9 @@ class MPMPackageManager
     
     # Create the dir if it doesnt exist
     begin
-      p = Pathname.new @path
-      p = p.expand_path
-      if !p.exist?
-        p.mkdir
+      @path = File.expand_path @path
+      if !File.exists? @path
+        Fileutils.mkdir @path
       end
     rescue
       puts "#{@path} could not be created"
@@ -23,19 +22,19 @@ class MPMPackageManager
   end
   
   def get_current_package
-    p = Pathname.new File.realdirpath @options[:minecraftdir]
-    return p.basename
+    f = File.basename File.realdirpath File.expand_path @options[:minecraftdir]
+    return f
   end
   
   def list
     begin
-      p = Pathname.new path
-      p = p.expand_path
+      f = File.expand_path @path
+      p = Pathname.new f
       
       p.children.select do |c|
         if c.directory? then
           if not in_restricted_folders? c.basename.to_s
-            @packages << c
+            @packages << c.basename.to_s
           end
         end
       end
@@ -48,8 +47,8 @@ class MPMPackageManager
   def use(name)
     package = nil
     list.each do |val|
-      if val.basename.to_s == name
-        package = val.basename.to_s
+      if val == name
+        package = val
       end
     end
     
@@ -63,12 +62,12 @@ class MPMPackageManager
   end
   
   def set_symlink(packagename)
-    from = Pathname.new @options[:minecraftdir]
-    to = Pathname.new(@path + packagename).expand_path
+    from = File.expand_path @options[:minecraftdir]
+    to = File.expand_path @path + packagename
     
-    if from.symlink? or !from.exist?
+    if File.symlink? from or File.exists? from
       begin
-        if from.exist?
+        if File.exists? from
           begin
             File.unlink from
           rescue
@@ -85,12 +84,12 @@ class MPMPackageManager
   end
   
   def setup
-    minecraft = Pathname.new @options[:minecraftdir]
+    minecraft = File.expand_path @options[:minecraftdir]
     if File.exist? minecraft and not File.symlink? minecraft
       # Move the contents of the dir to the Default Profile
       create_new "default"
       begin
-        FileUtils.cp_r minecraft, Pathname.new(@options[:storage] + "default").expand_path
+        FileUtils.cp_r minecraft, File.expand_path @options[:storage] + "/" + "default"
       rescue
         puts "Cannot copy Minecraft folder"
       end
@@ -109,10 +108,10 @@ class MPMPackageManager
   end
   
   def create_new (name, use = false)
-    p = Pathname.new(@path + name).expand_path
-    if not p.exist? and not in_restricted_folders? name
+    p = File.expand_path(@path + "/" + name)
+    if not File.directory? p and not in_restricted_folders? name
       begin
-        p.mkdir
+        Fileutils.mkdir p
       rescue
         puts "Cannot make #{name}"
       end

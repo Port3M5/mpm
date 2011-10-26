@@ -1,5 +1,4 @@
 require_relative "./osfunctions"
-require 'pathname'
 require "yaml"
 
 class MPMConfig
@@ -26,20 +25,24 @@ class MPMConfig
     # Set the dir for minecraft
     @options[:minecraftdir] = get_minecraft_dir args[:minecraftdir]
     
-    save @options[:storage] + @options[:config]
+    # Expand Paths
+    @options[:storage] = File.expand_path @options[:storage]
+    @options[:minecraftdir] = File.expand_path @options[:minecraftdir] 
+    
+    save @options[:storage] + '/' + @options[:config]
   end
   
   # Load the config from the given location, otherwise use the default location
   def get_config(storage, path)
     file = (storage and path) ? storage + path : @defaults[:storage] + @defaults[:config]
-    file = Pathname.new(file).expand_path
+    file = File.expand_path file
     return load file
   end
   
   def get_minecraft_dir(path = nil)
     if path.nil?
       if OsFunctions::is_mac?
-        return Pathname.new('~/Library/Application Support/minecraft').expand_path.to_s
+        return File.expand_path '~/Library/Application Support/minecraft'
       end
     else
       return path
@@ -47,7 +50,7 @@ class MPMConfig
   end
   
   def save(path)
-    path = Pathname.new(path).expand_path
+    path = File.expand_path path
     begin
       File.open(path, "w") do |f|
         f.write(@options.to_yaml)
@@ -58,7 +61,7 @@ class MPMConfig
   end
   
   def load(path)
-    path = Pathname.new(path).expand_path
+    path = File.expand_path path
     begin
       conf = YAML::load File.open path
       return conf

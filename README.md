@@ -41,6 +41,9 @@ Using MPM
 Changelog
 ---------
 
+### 26/10/2011 ###
++ Removed as many references to Pathname.new as possible to speed up MPM. Using File.expand_path for path expansion and Fileutils for filesystem management. Pathname is now only used when getting the child packages in Packagemanager.list
+
 ### 24/10/2011 ###
  + Added the current Parameter, which just returns the name of the currently in use profile
 
