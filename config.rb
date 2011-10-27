@@ -43,6 +43,8 @@ class MPMConfig
     if path.nil?
       if OsFunctions::is_mac?
         return File.expand_path '~/Library/Application Support/minecraft'
+      elsif OsFunctions::is_linux?
+        return File.expand_path '~/.minecraft'
       end
     else
       return path
