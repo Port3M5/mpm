@@ -10,10 +10,15 @@ require_relative '../packagemanager'
 # Configure Trollop for ARGs
 SUB_COMMANDS = %w(use list new setup current)
 global_opts = Trollop::options do
-  banner "Minecraft Profile Manager. Minecraft management made easy :)"
+  banner <<-EOS
+  Minecraft Profile Manager. Minecraft management made easy :)
+  Usage: mpm [-csm] command [--help]
+  Available commands are: #{SUB_COMMANDS}
+  EOS
   version "0.2"
   opt :config, "Use config file from this location", :type => String
   opt :storage, "Select the location to store the mpm folder", :type => String
+  opt :minecraftdir, "Select the location of your minecraft folder", :type => String
   stop_on SUB_COMMANDS
 end
 
@@ -48,7 +53,7 @@ when "new"
     opt :use, "Uses the newly created profile", :default => false
   end
 else
-  Trollop::die "Unknown subcommand"
+  Trollop::die "Unknown command #{cmd.inspect}. Run with --help"
 end
 
 # Run the commands

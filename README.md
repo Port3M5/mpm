@@ -33,13 +33,18 @@ Run the following in Terminal:
 Using MPM
 ---------
 
-    mpm [-cs] list
-    mpm [-cs] current
-    mpm [-cs] new [-u] profile_name
-    mpm [-cs] use profile_name
+    mpm [-csm] list
+    mpm [-csm] current
+    mpm [-csm] new [-u] profile_name
+    mpm [-csm] use profile_name
 
 Changelog
 ---------
+
+### 27/10/2011 ###
++ Added a default location for minecraft on linux to be ~/.minecraft
++ Added the option to allow you to specify the location of the minecraft directory
++ Updated the help text
 
 ### 26/10/2011 ###
 + Removed as many references to Pathname.new as possible to speed up MPM. Using File.expand_path for path expansion and Fileutils for filesystem management. Pathname is now only used when getting the child packages in Packagemanager.list
@@ -53,7 +58,5 @@ Changelog
 
 Todo
 ----
-+ This.
-+ Make it compatible with Linux
 + Neaten up code
 + Fix any bugs
