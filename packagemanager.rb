@@ -94,7 +94,7 @@ class MPMPackageManager
       # Move the contents of the dir to the Default Profile
       create_new "default"
       begin
-        FileUtils.cp_r minecraft, File.expand_path(@options[:storage] + "/" + "default")
+        FileUtils.cp_r minecraft + "/.", File.expand_path(@options[:storage] + "/" + "default")
       rescue Exception => e
         puts "Cannot copy Minecraft folder"
         puts e.message

@@ -42,6 +42,7 @@ Changelog
 ---------
 
 ### 27/10/2011 ###
++ Fixed Setup copying the entire directory, not the contents, as is intended
 + Added a default location for minecraft on linux to be ~/.minecraft
 + Added the option to allow you to specify the location of the minecraft directory
 + Updated the help text
