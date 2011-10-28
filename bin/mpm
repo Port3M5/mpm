@@ -8,7 +8,7 @@ require_relative '../config'
 require_relative '../packagemanager'
 
 # Configure Trollop for ARGs
-SUB_COMMANDS = %w(use list new setup current)
+SUB_COMMANDS = %w(use launch list new setup current)
 global_opts = Trollop::options do
   banner <<-EOS
   Minecraft Profile Manager. Minecraft management made easy :)
@@ -48,18 +48,21 @@ when "current"
 when "setup"
 when "list"
 when "use"
+when "launch"
 when "new"
   Trollop::options do
     opt :use, "Uses the newly created profile", :default => false
   end
 else
-  Trollop::die "Unknown command #{cmd.inspect}. Run with --help"
+  Trollop::die "Unknown command #{cmd.inspect}. Run with --help to see available commands."
 end
 
 # Run the commands
 case cmd
 when "setup"
   @pm.setup
+when "launch"
+  `java -jar "#{@config.options[:minecraftdir]}/minecraft.jar" &`
 when "list"
   list
 when "use"

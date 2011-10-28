@@ -64,10 +64,9 @@ class MPMPackageManager
   def set_symlink(packagename)
     from = File.expand_path @options[:minecraftdir]
     to = File.expand_path @path + "/" + packagename
-    puts "From: #{from} To: #{to}"
     
     begin
-      if File.symlink? from and File.exists? from
+      if File.symlink? from
         begin
           File.unlink from
           File.symlink to, from
@@ -122,11 +121,27 @@ class MPMPackageManager
       rescue
         puts "Cannot make #{name}"
       end
+      
+      get_launcher @options[:minecraftdir] + "/minecraft.jar"
+      
       if use
         self.use name
       end
     else
       puts "A profile called #{name} already exists"
+    end
+  end
+  
+  def get_launcher target
+    require 'open-uri'
+    begin
+      url = 'https://s3.amazonaws.com/MinecraftDownload/launcher/minecraft.jar'
+      open(target, "wb") do |f|
+        f.write(open(url).read)
+        f.close
+      end
+    rescue Exception => e
+      puts e.message
     end
   end
   
