@@ -33,6 +33,7 @@ Run the following in Terminal:
 Using MPM
 ---------
 
+    mpm [-csm] launch
     mpm [-csm] list
     mpm [-csm] current
     mpm [-csm] new [-u] profile_name
@@ -40,6 +41,10 @@ Using MPM
 
 Changelog
 ---------
+
+### 28/10/2011 ###
++ Added the launch command
++ On creation of a new profile the launcher is downloaded into the root of the folder.
 
 ### 27/10/2011 ###
 + Fixed Setup copying the entire directory, not the contents, as is intended
