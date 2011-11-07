@@ -11,7 +11,7 @@ global_opts = Trollop::options do
   Usage: mpm [-csm] command [--help]
   Available commands are: #{SUB_COMMANDS}
   EOS
-  version "0.2"
+  version Mpm::VERSION
   opt :config, "Use config file from this location", :type => String
   opt :storage, "Select the location to store the mpm folder", :type => String
   opt :minecraftdir, "Select the location of your minecraft folder", :type => String

@@ -12,22 +12,14 @@ ToC
 Requirements
 ------------
 
-* Ruby >= 1.9.2
-* Bundler
+* Ruby
 
 Installing MPM
 --------------
 
 Run the following in Terminal:
 
-    git clone git://github.com/Port3M5/mpm.git ~/.mpm
-    cd .mpm
-    bundle install
-    cd ~
-    echo '# Enable MPM.
-    [[ -s "$HOME/.mpm/bin/mpm" ]] && export PATH="$PATH:$HOME/.mpm/bin"' >> ~/.bash_profile
-    source ~/.bash_profile
-    mpm setup
+    gem install mpm
 
 
 Using MPM
@@ -41,6 +33,10 @@ Using MPM
 
 Changelog
 ---------
+
+### 7/11/2011 ###
++ Turned application into a gem to make it more portable.
++ Updated this to reflect changes.
 
 ### 28/10/2011 ###
 + Added the launch command
