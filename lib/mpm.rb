@@ -1,5 +1,5 @@
 require "mpm/version"
-require 'mpm/trollop'
+require 'trollop'
 require 'mpm/config'
 require 'mpm/packagemanager'
 
