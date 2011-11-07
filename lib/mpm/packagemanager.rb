@@ -122,7 +122,7 @@ class MPMPackageManager
         puts "Cannot make #{name}"
       end
       
-      get_launcher @options[:minecraftdir] + "/minecraft.jar"
+      get_launcher p + "/minecraft.jar"
       
       if use
         self.use name
