@@ -45,6 +45,8 @@ class MPMConfig
         return File.expand_path '~/Library/Application Support/minecraft'
       elsif OsFunctions::is_linux?
         return File.expand_path '~/.minecraft'
+      elsif OsFunctions::is_windows?
+        return File.expand_path '~/AppData/Roaming/.minecraft'
       end
     else
       return path

@@ -1,15 +1,18 @@
 module OsFunctions
   
   def self.is_mac?
-    RUBY_PLATFORM.downcase.include? "darwin"
+    JS = Java::java.lang.System
+    JS.get_property 'os.name'.downcase.include? "darwin"
   end
   
   def self.is_windows?
-    RUBY_PLATFORM.downcase.include? "mswin"
+    JS = Java::java.lang.System
+    JS.get_property 'os.name'.downcase.include? "windows"
   end
   
   def self.is_linux?
-    RUBY_PLATFORM.downcase.include? "linux"
+    JS = Java::java.lang.System
+    JS.get_property 'os.name'.downcase.include? "linux"
   end
   
 end
